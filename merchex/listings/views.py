@@ -25,7 +25,7 @@ def contact(request):
     return HttpResponse('<h1>Contactez-vous</h1> <p>Page de contact !</p>')
 
 
-def articles(request):
+def listings(request):
     listing = Listing.objects.all()
     return HttpResponse(f"""
         <h1>Liste</h1>
