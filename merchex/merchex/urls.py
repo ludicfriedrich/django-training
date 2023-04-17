@@ -23,6 +23,7 @@ urlpatterns = [
     
     path('', views.welcome, name='welcome'),
     path('login/', views.login, name="login"),
+    path('register/', views.register, name="register"),
     
     path('bands/', views.band_list, name='band_list'),
     path('bands/<int:id>/', views.band_detail, name='band_detail'),

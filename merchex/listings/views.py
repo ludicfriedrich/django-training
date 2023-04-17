@@ -12,6 +12,10 @@ from listings.forms import ListingForm
 def welcome(request):
     return render(request, 'listings/welcome.html')
 
+#Register
+def register(request):
+    return render(request, 'registration/register.html')
+
 #Login page
 def login(request):
     return render(request, 'registration/login.html', {'is_active': 'login'})
