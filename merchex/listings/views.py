@@ -21,3 +21,7 @@ def contact(request):
 def listings(request):
     listings = Listing.objects.all()
     return render(request, 'listings/listings.html', {'listings': listings})
+
+def listing_detail (request, id):
+    listing = Listing.objects.get(id = id)
+    return render(request, 'listings/listing_detail.html', {'listing': listing})
