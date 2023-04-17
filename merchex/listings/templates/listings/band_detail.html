@@ -16,7 +16,7 @@
     <h3>Liste des annonces de ce groupe</h3>
 
     <ul>
-        {% for listing in band.listing_set.all.all %}
+        {% for listing in band.listing_set.all %}
             <li> {{listing.title}} </li>
         {% endfor %}
     </ul>

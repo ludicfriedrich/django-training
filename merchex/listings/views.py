@@ -33,6 +33,21 @@ def band_create (request):
     
     return render(request, 'listings/band_create.html', {'form': form})
 
+#Update band
+def band_update(request, id):
+        band = Band.objects.get(id=id)
+        if request.method == 'POST':
+            form = BandForm(request.POST, instance=band)
+            if form.is_valid():
+                # mettre à jour le groupe existant dans la base de données
+                form.save()
+                # rediriger vers la page détaillée du groupe que nous venons de mettre à jour
+                return redirect('band_detail', band.id)
+        else:
+            form = BandForm(instance=band)
+
+        return render(request, 'listings/band_update.html', {'form': form})
+
 #About 
 def about(request):
     return render(request, 'listings/about.html')
@@ -74,6 +89,18 @@ def listing_create (request):
     else:
         form = ListingForm()
     return render(request, 'listings/listing_create.html', {'form': form})
+
+#Update listing
+def listing_update (request, id):
+    listing = Listing.objects.get(id=id)
+    if request.method == 'POST':
+        form = ListingForm(request.POST, instance = listing)
+        if form.is_valid():
+            form.save()
+            return redirect('listing_detail', listing.id)
+    else:
+        form = ListingForm(instance = listing)
+    return render(request, 'listings/listing_update.html', {'form': form})
 
 #Email sent
 def email_sent (request):
