@@ -8,10 +8,14 @@ from django.shortcuts import redirect
 from listings.forms import BandForm
 from listings.forms import ListingForm
 
+#Welcome
+def welcome(request):
+    return render(request, 'listings/welcome.html')
+
 #List of bands
 def band_list(request):
     bands = Band.objects.all()
-    return render(request, "listings/band_list.html", {'bands': bands})
+    return render(request, "listings/band_list.html", {'bands': bands, 'is_active': 'band'})
 
 #Detail of selected band
 def band_detail(request, id): 
@@ -60,7 +64,7 @@ def band_delete(request, id):
 
 #About 
 def about(request):
-    return render(request, 'listings/about.html')
+    return render(request, 'listings/about.html', {'is_active': 'about'})
 
 #Contact us
 def contact(request):
@@ -76,12 +80,12 @@ def contact(request):
             return redirect('email_sent')
     else: 
         form = ContactUsForm()
-    return render(request, 'listings/contact.html', {'form': form})
+    return render(request, 'listings/contact.html', {'form': form, 'is_active': 'contact'})
 
 #Listings
 def listings(request):
     listings = Listing.objects.all()
-    return render(request, 'listings/listings.html', {'listings': listings})
+    return render(request, 'listings/listings.html', {'listings': listings, 'is_active': 'listing'})
 
 #Detail listing
 def listing_detail (request, id):
