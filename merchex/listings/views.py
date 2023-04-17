@@ -12,6 +12,10 @@ from listings.forms import ListingForm
 def welcome(request):
     return render(request, 'listings/welcome.html')
 
+#Login page
+def login(request):
+    return render(request, 'registration/login.html', {'is_active': 'login'})
+
 #List of bands
 def band_list(request):
     bands = Band.objects.all()
