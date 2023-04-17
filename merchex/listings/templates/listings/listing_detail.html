@@ -13,5 +13,7 @@
     </ul>
     <a href="{% url 'listing_update' listing.id %}">Modifier cette annonce</a>
 
+    <a href="{% url 'listing_delete' listing.id %}">Supprimer cette annonce</a>
+
     <a href="{% url 'listing_list' %}">Retour aux annonces</a>
 {% endblock content %}

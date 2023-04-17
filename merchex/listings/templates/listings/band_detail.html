@@ -21,6 +21,8 @@
         {% endfor %}
     </ul>
     <a href="{% url 'band_update' band.id %}">Modifier ce groupe</a>
+
+    <a href="{% url 'band_delete' band.id %}">Supprimer ce groupe</a>
     
     <a href="{% url 'band_list' %}">Retour à la liste des groupes</a>
    

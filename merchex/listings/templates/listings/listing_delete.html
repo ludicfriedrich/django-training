@@ -1,0 +1,15 @@
+{% extends 'listings/base.html' %}
+
+{% block content %}
+    <h1>Supprimer cette annonce</h1>
+
+    <p>Etes-vous sûr de vouloir supprimer le groupe : {{ listing.title }} ?</p>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <a href="{% url 'listing_detail' listing.id %}">
+            <input type="button" value="Annuler">
+        </a>
+        <input type="submit" value="Supprimer">
+    </form>
+{% endblock content %}
