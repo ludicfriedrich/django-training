@@ -11,6 +11,7 @@
         <li>Type : {{ listing.type }}</li>
         <li>Groupe : {{ listing.band }}</li>
     </ul>
+    <a href="{% url 'listing_update' listing.id %}">Modifier cette annonce</a>
 
-    <a href="{% url 'listing_list' %}">Retour à la liste</a>
+    <a href="{% url 'listing_list' %}">Retour aux annonces</a>
 {% endblock content %}

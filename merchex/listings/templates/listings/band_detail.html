@@ -20,6 +20,7 @@
             <li> {{listing.title}} </li>
         {% endfor %}
     </ul>
+    <a href="{% url 'band_update' band.id %}">Modifier ce groupe</a>
     
     <a href="{% url 'band_list' %}">Retour à la liste des groupes</a>
    
