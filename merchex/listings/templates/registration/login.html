@@ -53,12 +53,12 @@
 					<div class="col-md-6 mb-4 d-flex align-items-center">
 					  <div class="form-outline datepicker w-100">
 						<input
-						  type="email"
+						  type="text"
 						  class="form-control form-control-lg"
-						  id="inputEmail"
-						  name="email"
+						  id="inputUserName"
+						  name="username"
 						/>
-						<label for="inputEmail" class="form-label">Email</label>
+						<label for="inputUserName" class="form-label">Pseudo</label>
 					  </div>
 					</div>
 
@@ -74,6 +74,14 @@
 							>Mot de passe</label
 						  >
 						</div>
+					  </div>
+
+					  <div class="col-md-12 mb-4 pb-2">
+						{% for message in messages %}
+						  <div class="alert alert-danger text-center" role="alert">
+							{{message}}
+						  </div>
+						{% endfor %}
 					  </div>
 				  </div>
 

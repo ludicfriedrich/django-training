@@ -7,15 +7,14 @@ from django.core.mail import send_mail
 from django.shortcuts import redirect
 from listings.forms import BandForm
 from listings.forms import ListingForm
-from django.contrib.auth.models import User, auth
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 #Welcome
 def welcome(request):
-    if request.method == 'POST':
-        email = request.POST['email'],
-        password = request.POST['password']
-    return render(request, 'listings/bands.html')
+    return render(request, 'listings/welcome.html')
 
 #Register
 def register(request):
@@ -42,9 +41,9 @@ def register(request):
                 
                 return redirect('register')
             else:
-                user = User.objects.create_user(username = username, email = email, first_name = first_name, last_name = last_name)
-                user.set_password(password)
-                user.save
+                user = User.objects.create_user(username = username, email = email, first_name = first_name, last_name = last_name, password = password_confirmation)
+                # user.set_password(password)
+                user.save()
                 print('success')
                 return redirect('login')
         else:
@@ -57,19 +56,36 @@ def register(request):
 
 #Login page
 def login(request):
-    return render(request, 'registration/login.html', {'is_active': 'login'})
+    if request.method == 'POST':
+        username = request.POST['username'],
+        password = request.POST['password']
+        
+        user = authenticate(request, username = username, password = password)
+        
+        if user is not None:
+            login(request, user)
+            return redirect('bands')
+        else:
+            messages.info(request, "Nom d'utilisateur et mot de passe invalides")
+                
+            return redirect('login')
+    else:      
+        return render(request, 'registration/login.html', {'is_active': 'login'})
 
 #List of bands
+@login_required
 def band_list(request):
     bands = Band.objects.all()
     return render(request, "listings/band_list.html", {'bands': bands, 'is_active': 'band'})
 
 #Detail of selected band
+@login_required
 def band_detail(request, id): 
     band = Band.objects.get(id=id)
     return render(request, 'listings/band_detail.html', {'band': band})
 
 #Create band
+@login_required
 def band_create (request):
     if request.method == 'POST':
         form = BandForm(request.POST)
@@ -85,6 +101,7 @@ def band_create (request):
     return render(request, 'listings/band_create.html', {'form': form})
 
 #Update band
+@login_required
 def band_update(request, id):
         band = Band.objects.get(id=id)
         if request.method == 'POST':
@@ -130,16 +147,19 @@ def contact(request):
     return render(request, 'listings/contact.html', {'form': form, 'is_active': 'contact'})
 
 #Listings
+@login_required
 def listings(request):
     listings = Listing.objects.all()
     return render(request, 'listings/listings.html', {'listings': listings, 'is_active': 'listing'})
 
 #Detail listing
+@login_required
 def listing_detail (request, id):
     listing = Listing.objects.get(id = id)
     return render(request, 'listings/listing_detail.html', {'listing': listing})
 
 #Create listing
+@login_required
 def listing_create (request):
     if request.method == 'POST':
         form = ListingForm(request.POST)
@@ -152,6 +172,7 @@ def listing_create (request):
     return render(request, 'listings/listing_create.html', {'form': form})
 
 #Update listing
+@login_required
 def listing_update (request, id):
     listing = Listing.objects.get(id=id)
     if request.method == 'POST':
@@ -168,6 +189,7 @@ def email_sent (request):
     return render(request, 'listings/email-sent.html')
 
 #Delete listing
+@login_required
 def listing_delete(request, id):
     listing = Listing.objects.get(id=id)
     if request.method == 'POST':

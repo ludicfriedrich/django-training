@@ -2,3 +2,4 @@ env/
 db.sqlite3
 settings.json
 .vscode/
+debug.log
