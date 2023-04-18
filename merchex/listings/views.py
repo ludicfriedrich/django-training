@@ -7,14 +7,53 @@ from django.core.mail import send_mail
 from django.shortcuts import redirect
 from listings.forms import BandForm
 from listings.forms import ListingForm
+from django.contrib.auth.models import User, auth
+from django.contrib import messages
 
 #Welcome
 def welcome(request):
-    return render(request, 'listings/welcome.html')
+    if request.method == 'POST':
+        email = request.POST['email'],
+        password = request.POST['password']
+    return render(request, 'listings/bands.html')
 
 #Register
 def register(request):
-    return render(request, 'registration/register.html')
+    if request.method == 'POST':
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        password_confirmation = request.POST['password_confirmation']
+        
+        if not first_name or not last_name or not email or not password:
+            messages.info(request, "Tous les champs sont obligatoires")
+                
+            return redirect('register')
+        
+        if password == password_confirmation:
+            if User.objects.filter(username=username).exists():
+                messages.info(request, "Ce nom d'utilisateur existe déjà")
+                
+                return redirect('register')
+            elif User.objects.filter(email=email).exists():
+                messages.info(request, "Un utilisateur existe déjà avec cette adresse email")
+                
+                return redirect('register')
+            else:
+                user = User.objects.create_user(username = username, email = email, first_name = first_name, last_name = last_name)
+                user.set_password(password)
+                user.save
+                print('success')
+                return redirect('login')
+        else:
+            messages.info(request, "Les deux mots de passes ne correspondent pas")
+                
+            return redirect('register')
+                
+    else:
+        return render(request, 'registration/register.html')
 
 #Login page
 def login(request):
