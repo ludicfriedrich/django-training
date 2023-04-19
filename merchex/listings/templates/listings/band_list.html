@@ -1,15 +1,29 @@
 {% extends 'listings/base.html' %}
 
 {% block content %}
-    <h1>Groupes </h1>
-    <!-- TODO : liste des groupes -->
-    <ul>
-        {% for band in bands %}
-            <li>
-                <a href="{% url 'band_detail' band.id %}">{{ band.name }}</a>
-            </li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'band_create' %}">Ajouter un nouveau groupe</a>
+    <h1 class="text-center text-primary mt-4 mb-4">Liste des groupes </h1>
+    <div class="container">
+        <div class="row">
+            {% for band in bands %}
+            <div class="col-sm-6 mb-3 mb-sm-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title"> {{band.name}} </h5>
+                  <p class="card-text"> {{band.biography}} </p>
+                  <a href="{% url 'band_detail' band.id %}" class="btn btn-primary">Voir détail</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col text-end">
+                <a href="{% url 'band_create' %}">
+                    <button type="button" class="btn btn-success">Ajouter un nouveau groupe</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
 {% endblock content %}
     
