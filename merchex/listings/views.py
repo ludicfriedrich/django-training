@@ -8,7 +8,7 @@ from django.shortcuts import redirect
 from listings.forms import BandForm
 from listings.forms import ListingForm
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -64,13 +64,21 @@ def login_user(request):
         
         if user is not None:
             login(request, user)
-            return redirect('band_list')
+            if 'next' in request.POST:
+                return redirect(request.POST.get('next'))
+            else:
+                return redirect('band_list')
         else:
             messages.info(request, "Nom d'utilisateur et mot de passe invalides")
                 
             return redirect('login')
     else:      
         return render(request, 'registration/login.html', {'is_active': 'login'})
+
+#Logout user
+def logout_user(request):
+    logout(request)
+    return redirect('welcome')
 
 #List of bands
 @login_required
