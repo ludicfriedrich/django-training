@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 
 #Welcome
 def welcome(request):
@@ -64,10 +65,11 @@ def login_user(request):
         
         if user is not None:
             login(request, user)
-            if 'next' in request.POST:
-                return redirect(request.POST.get('next'))
+            next_url = request.POST.get('next', None)
+            if next_url is not None and next_url != '':
+                return redirect(next_url)
             else:
-                return redirect('band_list')
+                return redirect(reverse_lazy('band_list'))
         else:
             messages.info(request, "Nom d'utilisateur et mot de passe invalides")
                 
