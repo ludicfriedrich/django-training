@@ -55,16 +55,16 @@ def register(request):
         return render(request, 'registration/register.html')
 
 #Login page
-def login(request):
+def login_user(request):
     if request.method == 'POST':
-        username = request.POST['username'],
+        username = request.POST['username']
         password = request.POST['password']
         
         user = authenticate(request, username = username, password = password)
         
         if user is not None:
             login(request, user)
-            return redirect('bands')
+            return redirect('band_list')
         else:
             messages.info(request, "Nom d'utilisateur et mot de passe invalides")
                 
